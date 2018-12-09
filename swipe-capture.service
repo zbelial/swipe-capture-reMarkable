@@ -1,0 +1,13 @@
+[Unit]
+Description=swipe-capture
+#StartLimitIntervalSec=600
+#StartLimitBurst=4
+After=home.mount
+
+[Service]
+ExecStart=/usr/bin/swipe-capture
+
+[Install]
+WantedBy=multi-user.target
+
+

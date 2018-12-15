@@ -14,8 +14,11 @@
 using namespace std;
 
 // Longest time considered a "swipe"
-long int holdLength = 700000L;
-long int minLength = 150000L;
+long int holdLength = 900000L;
+long int minLength = 100000L;
+int minDistance = 100; //最小划动距离
+int leftEdge = 300; //从此位置之前右划才算作是划动手势
+int rightEdge = 500; //从此位置左划才算作划动手势
 #define EV_PRESSED 1
 #define EV_RELEASED 0
 #define EV_REPEAT 2
@@ -95,7 +98,7 @@ int main()
                               +ctime.tv_usec) -  swipe.pressTime.tv_usec;
 
                 // cout<<"usecs "<<usecs<<" Init X "<<swipe.initX<<" After X "<<swipe.x<<endl;
-                if(usecs >= minLength && usecs < holdLength && swipe.initX < 150 && swipe.x - swipe.initX >= 100) {
+                if(usecs >= minLength && usecs < holdLength && swipe.initX < leftEdge && swipe.x - swipe.initX >= minDistance) {
                     // cout << "RIGHT" << endl;
                     if( (fd = open(device, O_RDWR)) > 0 )
                     {
@@ -116,7 +119,7 @@ int main()
                     }
                 }
 
-                if(usecs >= minLength && usecs < holdLength && swipe.initX >= 617 && swipe.initX - swipe.x >= 100) {
+                if(usecs >= minLength && usecs < holdLength && swipe.initX >= rightEdge && swipe.initX - swipe.x >= minDistance) {
                     // cout << "LEFT" << endl;
                     if( fd > 0 )
                     {
